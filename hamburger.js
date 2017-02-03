@@ -129,13 +129,13 @@ var Hamburger = (function() {
    * Топпинги начинаются с TOPPING_*
    */
   Hamburger.SIZE_SMALL = {
-    name: 'Small burger',
+    name: 'Small',
     calories: 100,
     price: 3.0,
     maxStuffung: 5
   };
   Hamburger.SIZE_LARGE = {
-    name: 'Large burger',
+    name: 'Large',
     calories: 180,
     price: 5.0,
     maxStuffung: 10

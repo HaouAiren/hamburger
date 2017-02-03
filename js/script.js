@@ -1,5 +1,3 @@
-var shop = {};
-
 document.addEventListener("DOMContentLoaded", function() {
   document.getElementById('selectSmallSize').addEventListener('click', function() {
     selected(Hamburger.SIZE_SMALL);
@@ -13,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('newHamburger').style.display = 'none';
     document.getElementById('hamburgerFilling').style.display = 'block';
 
-    var burgerForm = new BurgerForm(size);    shop.burgerForm = burgerForm;
+    var burgerForm = new BurgerForm(size);
     burgerForm.onBuy(function() {
       alert('Sold!');
       // new Bill(burgerForm).show();

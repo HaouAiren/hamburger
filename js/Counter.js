@@ -6,7 +6,7 @@ function Counter() {
     self.setCount(e.target.value);
   });
 
-  var changeCallback;
+  var changeListeners = [];
 
   this.getCount = function() {
     return Number(counterElement.value);
@@ -20,15 +20,17 @@ function Counter() {
     } else {
       counterElement.value = value;
     }
-    changeCallback(counterElement.value);
+    changeListeners.forEach(function(listener) {
+      listener(counterElement.value);
+    });
   };
 
   /**
-   * Устанавливает слушателя на событие изменения количества заказа
+   * Добавляет слушателя на событие изменения количества заказа
    * @param {function} callback Функция обратного вызыва, которая будет вызываться при
    * изменении количества заказа.
    */
-  this.onChange = function(callback) {
-    changeCallback = callback;
+  this.addChangeListener = function(listener) {
+    changeListeners.push(listener);
   };
 }
