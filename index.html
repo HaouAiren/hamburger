@@ -5,6 +5,12 @@
     <link href="bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <script src="jquery-3.1.1.min.js"></script>
     <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="hamburger.js"></script>
+
+
+    <script src="js/BurgerForm.js"></script>
+    <script src="js/Counter.js"></script>
+    <script src="js/script.js"></script>
 </head>
 <body>
     <div class="container">
@@ -15,10 +21,10 @@
             <h2 class="text-center">Select the size</h2>
             <div class="row">
                 <div class="col-xs-6 text-center">
-                    <button class="btn btn-lg btn-primary" id="selectSmallSize">Small</button>
+                    <button class="btn btn-lg btn-primary" id="selectSmallSize" onclick="">Small</button>
                 </div>
                 <div class="col-xs-6 text-center">
-                    <button class="btn btn-lg btn-primary" id="selectLargeSize">Large</button>
+                    <button class="btn btn-lg btn-primary" id="selectLargeSize" onclick="">Large</button>
                 </div>
             </div>
         </div>
@@ -42,7 +48,7 @@
                     </dl>
                 </div>
                 <div class="col-xs-8 text-right">
-                    <button class="btn btn-lg btn-success">
+                    <button class="btn btn-lg btn-success" id="buy-it">
                         <span class="glyphicon glyphicon-shopping-cart"
                             style="padding-right: 10px;"></span>
                         Buy It!
@@ -165,7 +171,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-xs-8 control-label text-right" for="count">Total:</label>
-                            <div class="col-xs-4 form-control-static text-center">
+                            <div class="col-xs-4 form-control-static text-center" id="totalCost">
                                 $26.73
                             </div>
                         </div>
