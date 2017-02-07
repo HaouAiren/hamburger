@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
     selected(Hamburger.SIZE_LARGE);
   });
 
+  selected(Hamburger.SIZE_LARGE);
+
   function selected(size) {
     document.getElementById('newHamburger').style.display = 'none';
     document.getElementById('hamburgerFilling').style.display = 'block';

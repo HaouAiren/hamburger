@@ -19,13 +19,13 @@ var Hamburger = (function() {
    * Внутренняя функция, которая проверяет был ли добавлен тот
    * соус или начинка, которую пытаются добавить
    *
-   * @param {Array} stuffingsOrToppings  массив начинок или соусов
-   * @param {object} stuffingOrTopping добавляемая начинка или соус
+   * @param {Array} products  массив начинок или соусов
+   * @param {object} product добавляемая начинка или соус
    * @return {boolean} существует ли добавляемая начинка в гамбургере
    */
-  function isSmthAdded(stuffingsOrToppings, stuffingOrTopping) {
-    return stuffingsOrToppings.some(function(currTopping) {
-      return currTopping.name === stuffingOrTopping.name;
+  function isSmthAdded(products, product) {
+    return products.some(function(currTopping) {
+      return currTopping.name === product.name;
     });
   }
 
@@ -40,12 +40,15 @@ var Hamburger = (function() {
      * можно добавлять не больше 10 начинку
      *
      * @param {object} stuffing  Тип начинку
+     * @return {object} Удалось ли добавить начинку
      */
   Hamburger.prototype.addStuffing = function(stuffing) {
     if (this._stuffings.length <= this._size.maxStuffung &&
                           !isSmthAdded(this._stuffings, stuffing)) {
       this._stuffings.push(stuffing);
+      return true;
     }
+    return false;
   };
 
     /**
@@ -53,11 +56,29 @@ var Hamburger = (function() {
      * при условии, что они разные.
      *
      * @param {object} topping  Тип топпинга
+     * @return {boolean} Удалось ли добавить топпинг
      */
   Hamburger.prototype.addTopping = function(topping) {
     if (!isSmthAdded(this._toppings, topping)) {
       this._toppings.push(topping);
+      return true;
     }
+    return false;
+  };
+
+  /**
+   * Убрать начинку, при условии, что она ранее была
+   * добавлена.
+   *
+   * @param {object} stuffing Тип начинки
+   * @return {boolean} Удалось ли удалить начинку
+   */
+  Hamburger.prototype.removeStuffing = function(stuffing) {
+    if (isSmthAdded(this._stuffings, stuffing)) {
+      this._stuffings.splice(this._stuffings.indexOf(stuffing), 1);
+      return true;
+    }
+    return false;
   };
 
     /**
@@ -65,11 +86,14 @@ var Hamburger = (function() {
      * добавлен.
      *
      * @param {object} topping Тип топпинга
+     * @return {boolean} Удалось ли удалить топпинг
      */
   Hamburger.prototype.removeTopping = function(topping) {
     if (isSmthAdded(this._toppings, topping)) {
-      this._toppings.splice(this._toppings.indexOf(topping));
+      this._toppings.splice(this._toppings.indexOf(topping), 1);
+      return true;
     }
+    return false;
   };
 
     /**
@@ -97,6 +121,10 @@ var Hamburger = (function() {
      */
   Hamburger.prototype.getToppings = function() {
     return this._toppings;
+  };
+
+  Hamburger.prototype.getSize = function() {
+    return this._size;
   };
 
     /**
@@ -128,6 +156,7 @@ var Hamburger = (function() {
    * Начинки начинаются с STUFFING_*
    * Топпинги начинаются с TOPPING_*
    */
+
   Hamburger.SIZE_SMALL = {
     name: 'Small',
     calories: 100,
@@ -140,57 +169,6 @@ var Hamburger = (function() {
     price: 5.0,
     maxStuffung: 10
   };
-  Hamburger.STUFFING_CHEESE = {
-    name: 'Cheese',
-    calories: 80,
-    price: 4.0
-  };
-  Hamburger.STUFFING_SALAD = {
-    name: 'Salad',
-    calories: 5,
-    price: 1.0
-  };
-  Hamburger.STUFFING_POTATO = {
-    name: 'Potato',
-    calories: 70,
-    price: 1.5
-  };
-  Hamburger.STUFFING_EGG = {
-    name: 'Egg',
-    calories: 60,
-    price: 3.0
-  };
-  Hamburger.STUFFING_TOMATO = {
-    name: 'Tomato',
-    calories: 40,
-    price: 2.5
-  };
-  Hamburger.TOPPING_MAYO = {
-    name: 'Mayo',
-    calories: 50,
-    price: 3.0
-  };
-  Hamburger.TOPPING_SPICE = {
-    name: 'Spice',
-    calories: 45,
-    price: 5.0
-  };
-  Hamburger.TOPPING_FETA = {
-    name: 'Feta cheese',
-    calories: 60,
-    price: 4.5
-  };
-  Hamburger.TOPPING_FETA = {
-    name: 'Feta cheese',
-    calories: 60,
-    price: 4.5
-  };
-  Hamburger.TOPPING_BARBEQUE = {
-    name: 'Bottled Barbecue Sauce',
-    calories: 45,
-    price: 6.0
-  };
-
   return Hamburger;
 })();
 /* Пример использования

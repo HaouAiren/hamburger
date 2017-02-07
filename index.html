@@ -6,9 +6,11 @@
     <script src="jquery-3.1.1.min.js"></script>
     <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="hamburger.js"></script>
+    <script src="js/HamburgerRepository.js"></script>
 
     <script src="js/BurgerForm.js"></script>
     <script src="js/Counter.js"></script>
+    <script src="js/AddProductForm.js"></script>
     <script src="js/script.js"></script>
 </head>
 <body>
@@ -47,6 +49,9 @@
                     </dl>
                 </div>
                 <div class="col-xs-8 text-right">
+                  <button class="btn btn-primary" id="standard">
+                      Standard
+                  </button>
                     <button class="btn btn-lg btn-success" id="buy-it">
                         <span class="glyphicon glyphicon-shopping-cart"
                             style="padding-right: 10px;"></span>
@@ -57,7 +62,7 @@
 
             <div class="row">
                 <div class="col-xs-6">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="toppings">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-6">
@@ -69,9 +74,7 @@
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Add Topping <span class="caret"></span>
                                         </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Mayo</a></li>
-                                            <li><a href="#">Spice</a></li>
+                                        <ul class="dropdown-menu filling-list">
                                         </ul>
                                     </div>
                                 </div>
@@ -86,23 +89,13 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td width="50%">Spice</td>
-                                    <td width="50%">$1.5</td>
-                                    <td width="auto">
-                                        <button class="btn btn-sm btn-danger">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                    </td>
-                                </tr>
+                            <tbody class="added-filling">
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="col-xs-6">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="stuffings">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-6">
@@ -114,10 +107,7 @@
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Add Stuffing <span class="caret"></span>
                                         </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Cheese</a></li>
-                                            <li><a href="#">Salad</a></li>
-                                            <li><a href="#">Potato</a></li>
+                                        <ul class="dropdown-menu filling-list">
                                         </ul>
                                     </div>
                                 </div>
@@ -132,27 +122,7 @@
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td width="50%">Salad</td>
-                                <td width="50%">$3.5</td>
-                                <td width="auto">
-                                    <button class="btn btn-sm btn-danger">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td width="50%">Cheese</td>
-                                <td width="50%">$0.9</td>
-                                <td width="auto">
-                                    <button class="btn btn-sm btn-danger">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </button>
-                                </td>
-                            </tr>
+                            <tbody class="added-filling">
                             </tbody>
                         </table>
                     </div>
