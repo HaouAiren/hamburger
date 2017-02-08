@@ -3,41 +3,51 @@ function BurgerForm(size) {
 
   var hamburger = new Hamburger(size);
 
-  var burgerSize = document.getElementById('burgerSize');
-  var burgerToppingsQuantity = document.getElementById('burgerToppingsQuantity');
-  var burgerStuffingsQuantity = document.getElementById('burgerStuffingsQuantity');
-  var burgerCaloriesQuantity = document.getElementById('burgerCaloriesQuantity');
-  var burgerPrice = document.getElementById('burgerPrice');
-
   var toppingsForm = new AddProductForm(AddProductForm.Toppings);
   var stuffingsForm = new AddProductForm(AddProductForm.Stuffings);
 
   var counter = new Counter();
   var total;
 
+  var infoShard = new ViewShard('info');window.info = infoShard;
+  var actionsShard = new ViewShard('actions');
+
   // TEST CODE
-  document.getElementById('standard').onclick = function() {
+  actionsShard.standard = function() {
     toppingsForm.add(HamburgerRepository.findPoductByName('Mayo'));
     toppingsForm.add(HamburgerRepository.findPoductByName('Spice'));
     stuffingsForm.add(HamburgerRepository.findPoductByName('Potato'));
 
     counter.setCount(3);
-  }
+  };
+
+  var counterShard = new ViewShard('counter');window.counter = counterShard;
+  counterShard.watch('count', function (oldValue, newValue) {
+    if (newValue > 50) {
+      counterShard.count = 1;
+    } else if (newValue < 1) {
+      counterShard.count = 1;
+    }
+  });
 
   var buyItElement = document.getElementById('buy-it');
   var totalElement = document.getElementById('totalCost');
   var onBuyCallback;
 
-  buyItElement.addEventListener('click', function() {
+  actionsShard.buy = function() {
     onBuyCallback();
-  });
+  };
+
+  this.hamburger = function() {
+    return hamburger;
+  };
 
   this.updateBurgerTable = function() {
-    burgerSize.textContent = hamburger._size.name;
-    burgerToppingsQuantity.textContent = hamburger._toppings.length;
-    burgerStuffingsQuantity.textContent = hamburger._stuffings.length;
-    burgerCaloriesQuantity.textContent = hamburger.calculateCalories();
-    burgerPrice.textContent = Counter.formatPrice(hamburger.calculatePrice());
+    infoShard.size = hamburger.getSize().name;
+    infoShard.toppings = hamburger.getToppings().length;
+    infoShard.stuffings = hamburger.getStuffing().length;
+    infoShard.calories = hamburger.calculateCalories();
+    infoShard.price = hamburger.calculatePrice();
     self.calculateTotal();
   };
 
@@ -67,7 +77,7 @@ function BurgerForm(size) {
   });
 
   function checkMaxStuffing() {
-    if (hamburger.getSize().maxStuffung == burgerStuffingsQuantity.textContent) {
+    if (hamburger.getSize().maxStuffung == infoShard.stuffings) {
       stuffingsForm.disableAddButton(true);
     }
   }

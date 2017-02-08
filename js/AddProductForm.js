@@ -6,18 +6,17 @@ function AddProductForm(productFilter) {
   var addCallback;
   var removeCallback;
 
-  (function initForm() {
-    var products = HamburgerRepository[productFilter]();
-    products.forEach(function(product) {
-      var productElem = document.createElement('li');
-      var productLink = document.createElement('a');
-      productLink.href = '#';
-      productLink.dataset.productId = product.productId;
-      productLink.textContent = product.name;
-      productElem.appendChild(productLink);
-      fillingList.appendChild(productElem);
-    });
-  })();
+  // Инициализируем пункты меню
+  var products = HamburgerRepository[productFilter]();
+  products.forEach(function(product) {
+    var productElem = document.createElement('li');
+    var productLink = document.createElement('a');
+    productLink.href = '#';
+    productLink.dataset.productId = product.productId;
+    productLink.textContent = product.name;
+    productElem.appendChild(productLink);
+    fillingList.appendChild(productElem);
+  });
 
   fillingList.addEventListener('click', function(event) {
     var target = event.target;
@@ -41,16 +40,16 @@ function AddProductForm(productFilter) {
     if (hiddenItems.length === fillingList.children.length) {
       self.disableAddButton(true);
     }
-    getMenuElement(filling.productId.toString()).style = 'display: none;';
+    getMenuItem(filling.productId.toString()).style = 'display: none;';
   }
 
   function showMenuItem(filling) {
     self.disableAddButton(false);
     hiddenItems.pop();
-    getMenuElement(filling.productId.toString()).style = 'display: list-item;';
+    getMenuItem(filling.productId.toString()).style = 'display: list-item;';
   }
 
-  function getMenuElement(productId) {
+  function getMenuItem(productId) {
     var links = fillingList.querySelectorAll('A');
     for (var i = 0; i < links.length; i++) {
       if (links[i].dataset.productId === productId) {

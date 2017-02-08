@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     selected(Hamburger.SIZE_LARGE);
   });
 
-  selected(Hamburger.SIZE_LARGE);
+  selected(Hamburger.SIZE_SMALL);
 
   function selected(size) {
     document.getElementById('newHamburger').style.display = 'none';
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var burgerForm = new BurgerForm(size);
     burgerForm.onBuy(function() {
-      alert('Sold!');
+      //alert(this.hamburger());
       // new Bill(burgerForm).show();
     });
   }
