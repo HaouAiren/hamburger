@@ -1,53 +1,53 @@
-function BurgerForm(size) {
+/* global constructor Hamburger:true */
+/* global constructor AddProductForm:true */
+/* global constructor ViewShard:true */
+/* global Object HamburgerRepository:true */
+function BurgerForm() {
   var self = this;
 
-  var hamburger = new Hamburger(size);
+  var hamburger;
+  window.hamburger = hamburger;
 
   var toppingsForm = new AddProductForm(AddProductForm.Toppings);
   var stuffingsForm = new AddProductForm(AddProductForm.Stuffings);
 
-  var counter = new Counter();
-  var total;
-
-  var infoShard = new ViewShard('info');window.info = infoShard;
+  var infoShard = new ViewShard('info');
   var actionsShard = new ViewShard('actions');
+  var counterShard = new ViewShard('counter');
 
-  // TEST CODE
-  actionsShard.standard = function() {
-    toppingsForm.add(HamburgerRepository.findPoductByName('Mayo'));
-    toppingsForm.add(HamburgerRepository.findPoductByName('Spice'));
-    stuffingsForm.add(HamburgerRepository.findPoductByName('Potato'));
-
-    counter.setCount(3);
+  this.init = function(size) {
+    clearForm();
+    hamburger = new Hamburger(size);
+    self.updateBurgerTable();
   };
 
-  var counterShard = new ViewShard('counter');window.counter = counterShard;
-  counterShard.watch('count', function (oldValue, newValue) {
+  function clearForm() {
+    toppingsForm.clearForm();
+    stuffingsForm.clearForm();
+  }
+
+  counterShard.watch('count', function(oldValue, newValue) {
     if (newValue > 50) {
-      counterShard.count = 1;
+      counterShard.count = 50;
     } else if (newValue < 1) {
       counterShard.count = 1;
     }
+    self.calculateTotal();
   });
 
-  var buyItElement = document.getElementById('buy-it');
-  var totalElement = document.getElementById('totalCost');
-  var onBuyCallback;
-
-  actionsShard.buy = function() {
-    onBuyCallback();
-  };
-
-  this.hamburger = function() {
+  this.getHamburger = function() {
     return hamburger;
+  };
+  this.getQuantity = function() {
+    return counterShard.count;
   };
 
   this.updateBurgerTable = function() {
     infoShard.size = hamburger.getSize().name;
     infoShard.toppings = hamburger.getToppings().length;
-    infoShard.stuffings = hamburger.getStuffing().length;
+    infoShard.stuffings = hamburger.getStuffings().length;
     infoShard.calories = hamburger.calculateCalories();
-    infoShard.price = hamburger.calculatePrice();
+    infoShard.price = Format.dollar(hamburger.calculatePrice());
     self.calculateTotal();
   };
 
@@ -82,22 +82,17 @@ function BurgerForm(size) {
     }
   }
 
-  counter.addChangeListener(function() {
-    self.calculateTotal();
-  });
-
   this.getTotal = function() {
-    return total;
+    return counterShard.total;
   };
 
   this.calculateTotal = function() {
-    total = counter.getCount() * hamburger.calculatePrice(); /* price */
-    totalElement.textContent = Counter.formatPrice(total);
+    counterShard.total = Format.dollar(counterShard.count * hamburger.calculatePrice());
   };
 
   this.onBuy = function(callback) {
-    onBuyCallback = callback;
+    actionsShard.buy = callback;
   };
 
-  this.updateBurgerTable();
+  //this.updateBurgerTable();
 }

@@ -1,3 +1,5 @@
+/* global constructor Hamburger:true */
+/* global constructor BurgerForm:true */
 document.addEventListener("DOMContentLoaded", function() {
   document.getElementById('selectSmallSize').addEventListener('click', function() {
     selected(Hamburger.SIZE_SMALL);
@@ -7,16 +9,22 @@ document.addEventListener("DOMContentLoaded", function() {
     selected(Hamburger.SIZE_LARGE);
   });
 
-  selected(Hamburger.SIZE_SMALL);
+  var burgerForm = new BurgerForm();
+  var bill = new Bill();
 
   function selected(size) {
     document.getElementById('newHamburger').style.display = 'none';
     document.getElementById('hamburgerFilling').style.display = 'block';
+    burgerForm.init(size);
 
-    var burgerForm = new BurgerForm(size);
+    bill.onPay(function() {
+      document.getElementById('newHamburger').style.display = 'block';
+      document.getElementById('hamburgerFilling').style.display = 'none';
+      document.querySelector('.bill-wrapper').style.display = 'none';
+    });
+
     burgerForm.onBuy(function() {
-      //alert(this.hamburger());
-      // new Bill(burgerForm).show();
+      bill.getBill(burgerForm.getHamburger(), burgerForm.getQuantity());
     });
   }
 });

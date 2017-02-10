@@ -109,7 +109,7 @@ var Hamburger = (function() {
      * @return {Array} Массив добавленных начинок, содержит константы
      * Hamburger.STUFFING_*
      */
-  Hamburger.prototype.getStuffing = function() {
+  Hamburger.prototype.getStuffings = function() {
     return this._stuffings;
   };
 

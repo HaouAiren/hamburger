@@ -9,10 +9,39 @@
     <script src="js/HamburgerRepository.js"></script>
     <script src="js/view-shard.js"></script>
 
+    <script src="js/Format.js"></script>
+
+    <script src="js/Bill.js"></script>
     <script src="js/BurgerForm.js"></script>
-    <script src="js/Counter.js"></script>
     <script src="js/AddProductForm.js"></script>
     <script src="js/script.js"></script>
+    <style>
+      .bill-wrapper {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        background-color: rgba(255, 255, 255, 0.7);
+        height: 100%;
+      }
+      .bill{
+        font-size: 20px;
+        padding: 30px 20px;
+        margin-top: 20%;
+        font-family: "Segoe Print";
+        background-image: -webkit-linear-gradient(left, #eae8e8, #f0f0f0, #eae8e8);
+      }
+      .bill hr {
+        border: 0;
+        height: 3px;
+        background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+        background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+        background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+        background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+      }
+      .bill-product-template {
+        display: none;
+      }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -50,9 +79,6 @@
                     </dl>
                 </div>
                 <div class="col-xs-8 text-right" data-vs="actions">
-                  <button class="btn btn-primary" data-vs-click="standard">
-                      Standard
-                  </button>
                     <button class="btn btn-lg btn-success"  data-vs-click="buy">
                         <span class="glyphicon glyphicon-shopping-cart"
                             style="padding-right: 10px;"></span>
@@ -132,23 +158,107 @@
             <div style="border-bottom: 1px solid #bbb; margin-bottom: 20px;"></div>
             <div class="row">
                 <div class="col-xs-4 col-xs-offset-8">
-                    <form class="form-horizontal">
-                        <div class="form-group" data-vs="counter">
+                    <form class="form-horizontal" data-vs="counter">
+                        <div class="form-group">
                             <label class="col-xs-8 control-label text-right" for="count">Count:</label>
                             <div class="col-xs-4">
-                                <input type="number" class="form-control" id="count" value="1" data-vs-bind="count">
+                                <input type="number" class="form-control" value="1" data-vs-bind="count">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-8 control-label text-right" for="count">Total:</label>
-                            <div class="col-xs-4 form-control-static text-center" id="totalCost">
-                                $26.73
+                            <div class="col-xs-4 form-control-static text-center" data-vs-bind="total">
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row bill-wrapper" data-vs="bill" style="display: none;">
+
+      <div class="container">
+        <div class="row bill-product-template">
+          <div class="col-xs-6 col-xs-offset-2">
+          </div>
+          <div class="col-xs-4">
+          </div>
+        </div>
+
+        <div class="col-xs-4 col-xs-offset-4 bill">
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <img src="images/shop_logo.jpg" alt="shop logo" height="135px" class="img-circle"/>
+            </div>
+          </div>
+          <div data-vs-visible="hasToppings">
+            <div class="row" >
+              <h3 class="col-xs-12 text-center">
+                Topping
+              </h3>
+            </div>
+            <div class="topping-list">
+            </div>
+          </div>
+          <div data-vs-visible="hasStuffings">
+            <div class="row" >
+              <h3 class="col-xs-12 text-center">
+                Stuffing
+              </h3>
+            </div>
+            <div class="stuffing-list">
+            </div>
+          </div>
+          <div class="row">
+            <h3 class="col-xs-12 text-center">
+              Size
+            </h3>
+          </div>
+          <div class="row">
+            <div class="col-xs-6 col-xs-offset-2" data-vs-bind="sizeName">
+              Large
+            </div>
+            <div class="col-xs-4" data-vs-bind="sizePrice">
+              $1.3
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6 col-xs-offset-2">
+              Price
+            </div>
+            <div class="col-xs-4" data-vs-bind="price">
+              $1.3
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+              <hr />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-6 col-xs-offset-2">
+              Count
+            </div>
+            <div class="col-xs-4" data-vs-bind="count">
+              $1.3
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6 col-xs-offset-2">
+              Total
+            </div>
+            <div class="col-xs-4" data-vs-bind="total">
+              $1.3
+            </div>
+          </div>
+          <div class="row text-center">
+            <button class="btn btn-lg btn-default pay">Pay&nbsp;<span class="glyphicon glyphicon-cutlery"></span></button>
+          </div>
+
+        </div>
+
+      </div>
     </div>
 </body>
 </html>

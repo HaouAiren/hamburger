@@ -10,6 +10,8 @@ function ViewShard(name) {
       bounds[el.dataset.vsBind] = vsBind(el);
     } else if (el.dataset.vsClick) {
       bounds[el.dataset.vsClick] = vsClick(el);
+    } else if (el.dataset.vsVisible) {
+      bounds[el.dataset.vsVisible] = vsVisible(el);
     }
   }
 
@@ -24,17 +26,23 @@ function ViewShard(name) {
       type: 'bind'
     };
     if (element.tagName == 'INPUT') {
+      bound.currentValue = element.value;
       element.addEventListener('change', function() {
-        fireWachers(bound, element.value);
+        var prevValue = bound.currentValue;
         bound.currentValue = element.value;
+        fireWachers(bound, prevValue);
       });
     }
 
     return bound;
   }
 
-  // bound.currentValue - функция, которая будет вызываться при срабатывании
-  // события на element
+  /**
+   * bound.currentValue - функция, которая будет вызываться при срабатывании
+   * события на element
+   * @param  {HTMLElement} element [description]
+   * @return {object}         [description]
+   */
   function vsClick(element) {
     var bound = {
       element: element,
@@ -51,14 +59,24 @@ function ViewShard(name) {
     return bound;
   }
 
+  function vsVisible(element) {
+    var bound = {
+      element: element,
+      currentValue: undefined,
+      watchers: [],
+      type: 'visibility'
+    };
+    return bound;
+  }
+
   //
-  function fireWachers(bound, newValue) {
+  function fireWachers(bound, prevValue) {
     if (!bound) {
       return;
     }
     if (bound.watchers.length > 0) {
       bound.watchers.forEach(function(watcher) {
-        watcher(bound.currentValue, newValue);
+        watcher(prevValue, bound.currentValue);
       });
     }
   }
@@ -86,9 +104,16 @@ function ViewShard(name) {
             else {
               bound.element.textContent = value;
             }
+          } else if (bound.type === 'visibility') {
+            if (value) {
+              bound.element.style = '';
+            } else {
+              bound.element.style = 'display: none;';
+            }
           }
-          fireWachers(bound, value);
+          var prevValue = bound.currentValue;
           bound.currentValue = value;
+          fireWachers(bound, prevValue);
         }
       },
       get: function(target, property) {

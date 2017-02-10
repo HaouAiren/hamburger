@@ -6,17 +6,33 @@ function AddProductForm(productFilter) {
   var addCallback;
   var removeCallback;
 
+  this.clearForm = function() {
+    removeAllChildren(fillingList)
+    removeAllChildren(addedList);
+    init();
+
+    function removeAllChildren(element) {
+      while (element.firstChild) {
+        element.removeChild(element.firstChild);
+      }
+    }
+  };
+
+
   // Инициализируем пункты меню
-  var products = HamburgerRepository[productFilter]();
-  products.forEach(function(product) {
-    var productElem = document.createElement('li');
-    var productLink = document.createElement('a');
-    productLink.href = '#';
-    productLink.dataset.productId = product.productId;
-    productLink.textContent = product.name;
-    productElem.appendChild(productLink);
-    fillingList.appendChild(productElem);
-  });
+  function init() {
+    var products = HamburgerRepository[productFilter]();
+    products.forEach(function(product) {
+      var productElem = document.createElement('li');
+      var productLink = document.createElement('a');
+      productLink.href = '#';
+      productLink.dataset.productId = product.productId;
+      productLink.textContent = product.name;
+      productElem.appendChild(productLink);
+      fillingList.appendChild(productElem);
+    });
+    hiddenItems = [];
+  }
 
   fillingList.addEventListener('click', function(event) {
     var target = event.target;
@@ -63,7 +79,7 @@ function AddProductForm(productFilter) {
     tableRow.dataset.productId = filling.productId;
     tableRow.appendChild(createCell(addedList.children.length + 1));
     tableRow.appendChild(createCell(filling.name, '50%'));
-    tableRow.appendChild(createCell(Counter.formatPrice(filling.price), '50%'));
+    tableRow.appendChild(createCell(Format.dollar(filling.price), '50%'));
 
     var buttonCell = createCell('', 'auto');
     var button = document.createElement('button');
@@ -131,6 +147,7 @@ function AddProductForm(productFilter) {
     var addButton = fillingList.previousElementSibling;
     addButton.disabled = flag;
   };
+
 }
 
 AddProductForm.Toppings = "toppings";
